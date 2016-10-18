@@ -1,0 +1,13 @@
+<h1>Data</h1>
+<table>
+<% @parsed_file.each do |datum| %>
+  <tr>
+    <td><%= datum[0] %></td>
+    <td><%= datum[1] %></td>
+    <td><%= datum[2] %></td>
+    <td><%= datum[3] %></td>
+    <td><%= datum[4] %></td>
+
+  </tr>
+<%end%>
+</table>
