@@ -7,7 +7,14 @@
     <td><%= datum[2] %></td>
     <td><%= datum[3] %></td>
     <td><%= datum[4] %></td>
-
   </tr>
 <%end%>
+<table>
+<% @parsed_file2.each do |key, value| %>
+  <tr>
+    <td><%= key %></td>
+    <td><%= value %></td>
+  </tr>
+<% end %>
+</table>
 </table>
