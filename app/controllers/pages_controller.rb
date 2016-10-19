@@ -4,6 +4,7 @@ class PagesController < ApplicationController
     @parsed_file = parse_tsv("data.tsv")
     @parsed_file2 = parse_tsv("data2.tsv")
     #@normalized = normalize_from_parse(@parsed_file)
+    @normal = normalized_users(@parsed_file)
 
   end
 
@@ -42,6 +43,22 @@ class PagesController < ApplicationController
       companies["#{parsed_item[-1]}"] += 1
     end
     return companies
+  end
+
+  def normalize_user(parsed_file_array)
+    users = Hash.new(0)
+    parsed_file_array.each do |parsed_item|
+      users["#{parsed_item[2]}"] += 1
+    end
+    return users
+  end
+
+  def normalized_users(parsed_file_array)
+    users = Hash.new(0)
+    parsed_file_array.each do |parsed_item|
+      users["#{parsed_item[2]}"] = parsed_item - [parsed_item[2]]
+    end
+    return users
   end
 
   def normalize()
