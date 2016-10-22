@@ -11,4 +11,54 @@ module PagesHelper
     end
     return problem_row_hash
   end
+
+  #   def normalize_phone(string_phone)
+  #   chars = ["(", ")", ".", "-"]
+  #   new_string = ""
+  #   string_phone.split("").each do |string_phone_char|
+  #     if chars.include?(string_phone_char)
+  #       next
+  #     else
+  #       new_string += string_phone_char
+  #     end
+  #   end
+  #   return new_string
+  # end
+
+  def normalize_phone(string_phone)
+    split_string_phone = string_phone.split(/[(, ), ., -]/)
+    if split_string_phone[0] == ""
+      return split_string_phone[1..-1]
+    else
+      return split_string_phone
+    end
+  end
+
+  def split_ext(array_phone)
+    if array_phone[-1].include?("x")
+      return "#{array_phone[0..-2].join('-')} #{array_phone[-1]}"
+    else
+      return "#{array_phone.join('-')}"
+    end
+  end
+
+  # def extensionify(string_phone)
+  #   string_phone = string_phone.split("x")
+  #   phone_number = ""
+  #   extension = "Ext. "
+  #   string_phone.each_with_index do |string, index|
+  #     case index
+  #     when 0
+  #         string.insert(-5, "-")
+  #         string.insert(-9, "-")
+  #       if string.length > 12
+  #         string.insert(-13, "-")
+  #       end
+  #       phone_number = string
+  #     when 1
+  #       extension += string
+  #     end
+  #   end
+  #   return "#{phone_number} #{extension if extension.length > 5}"
+  # end
 end

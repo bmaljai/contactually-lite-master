@@ -5,7 +5,11 @@ class PagesController < ApplicationController
     @parsed_file2 = parse_tsv("data2.tsv")
     #@normalized = normalize_from_parse(@parsed_file)
     @normal = normalized_users(@parsed_file)
+  end
 
+  def create_from_file
+    parsed_file = parse_tsv("data.tsv")
+    users = normalized_users(parsed_file)
   end
 
   private
@@ -61,13 +65,33 @@ class PagesController < ApplicationController
     return users
   end
 
-  def normalize()
-    company_keys = Hash.new(0)
-    email_keys = Hash.new(0)
-    parsed_file_array.each do |parsed_item|
-      company_keys << parsed_item[-1]
-    end
+  def find_or_create_company(company_name)
+    return Company.find_by(name: company_name).id || Company.create(name: company_name).id
   end
+
+  def find_or_create_user(user_email)
+    return User.find_by(email: user_email).id || User.create(email: user_email)
+  end
+
+  def normalize_phone(string_phone)
+    chars = ["(", ")", ".", "-"]
+    new_string = ""
+    string_phone.split("").each do |string_phone_char|
+      chars.each do |char|
+        if string_phone_char != char
+          new_string += string_phone_char
+        end
+      end
+    end
+    return new_string
+  end
+  # def normalize()
+  #   company_keys = Hash.new(0)
+  #   email_keys = Hash.new(0)
+  #   parsed_file_array.each do |parsed_item|
+  #     company_keys << parsed_item[-1]
+  #   end
+  # end
 end
 
 #create before action for create normalization
