@@ -1,5 +1,9 @@
 require "csv"
 class PagesController < ApplicationController
+  def new
+    
+  end
+
   def index
     @parsed_file = parse_tsv("data.tsv")
     @parsed_file2 = parse_tsv("data2.tsv")
