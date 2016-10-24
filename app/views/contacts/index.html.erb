@@ -1,24 +1,31 @@
 <div ng-app="contactsApp">
+  <div>
+    <h4>Upload File</h4>
+    <%= form_tag({action: :create}, multipart: true) do %>
+      <%= file_field_tag 'file' %>
+      <span><%= submit_tag 'Upload File' %></span>
+    <% end %>
+  </div>
   <div ng-controller="contactsCtrl" ng-init="setup()">
     <div>
-      <datalist id="names">
-        <option ng-repeat="contact in contacts">{{contact.phone_number}}</option>
-        <option ng-repeat="contact in contacts">{{contact.email_address}}</option>           
-      </datalist>
-      Filter: <input ng-model="personFilter" list="names">    
+      <button ng-click="filterEmailToggle('.com')">Show only .com Email</button>
+      <button ng-click="filterPhoneToggle('x')">Show Phone with Extension</button>
+      <span>Filter Phone Numbers<input ng-model="contactFilter.phone_number"></span>
     </div>
-       <div>
-      <button ng-click="toggleByAttribute('email_address')">Sort By email</button>
-      <button ng-click="toggleByAttribute('last_name')">Sort By fname</button>
-      <button ng-click="filterEmailToggle('.com')">filter By email</button>
-      <button ng-click="filterPhoneToggle('x')">filter By extensions</button>
-      <input ng-model="contactFilter.phone_number">
-    </div>
-    <table>
+    <table class="table">
       <tr>
-        <th ng-click="">First Name</th>
-        <th ng-click="">Last Name</th>
-        <th ng-click="">Birthdate</th>
+        <th ng-click="">First Name
+          <button ng-click="toggleByAttribute('first_name')">Sort</button>
+        </th>
+        <th ng-click="">Last Name
+          <button ng-click="toggleByAttribute('last_name')">Sort</button>
+        </th>
+        <th ng-click="">Email
+          <button ng-click="toggleByAttribute('email_address')">Sort</button>
+        </th>
+        <th ng-click="">Phone Number</th>
+        <th ng-click="">Company</th>
+        <th ng-click="">Contact ID</th>
       </tr>
       <tr ng-repeat="contact in contacts | filter: contactFilter | orderBy:orderAttribute:descending">
         <td>{{contact.first_name}}</td>
