@@ -1,7 +1,7 @@
 require "csv"
 class PagesController < ApplicationController
   def new
-    
+
   end
 
   def index
@@ -14,6 +14,10 @@ class PagesController < ApplicationController
   def create_from_file
     parsed_file = parse_tsv("data.tsv")
     users = normalized_users(parsed_file)
+    parsed_file.each do |user_entry|
+      update_or_create_user(user_entry)
+    end
+    redirect_to "/pages"
   end
 
   private
@@ -70,11 +74,17 @@ class PagesController < ApplicationController
   end
 
   def find_or_create_company(company_name)
-    return Company.find_by(name: company_name).id || Company.create(name: company_name).id
+    return Company.find_by(name: company_name).try(:id) || Company.create(name: company_name).id
   end
 
-  def find_or_create_user(user_email)
-    return User.find_by(email: user_email).id || User.create(email: user_email)
+  def update_or_create_user(user_array)
+    company_id = find_or_create_company(user_array[4])
+    user = User.find_by(email_address: user_array[2])
+    if user
+      user.update(first_name: user_array[0], last_name:user_array[1], phone_number: user_array[3], company_id: company_id)
+    else
+      User.create(first_name: user_array[0], last_name: user_array[1], email_address: user_array[2], phone_number: user_array[3], company_id: company_id)
+    end
   end
 
   def normalize_phone(string_phone)

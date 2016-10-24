@@ -1,0 +1,19 @@
+<div ng-app="angApp">
+  <div ng-controller="angCtrl" ng-init="setup()">
+    <table>
+      <tr>
+        <th ng-click="">First Name</th>
+        <th ng-click="">Last Name</th>
+        <th ng-click="">Birthdate</th>
+      </tr>
+      <tr ng-repeat="contact in contacts">
+        <td>{{contact.first_name}}</td>
+        <td>{{contact.last_name}}</td>
+        <td>{{contact.company}}</td>
+        <td>{{contact.id}}</td>
+        <td><button ng-click="deleteContact(contact)">Delete Contact</button></td>
+      </tr>
+    </table>
+    
+  </div>
+</div>
