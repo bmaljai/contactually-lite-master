@@ -1,14 +1,30 @@
-<div ng-app="angApp">
-  <div ng-controller="angCtrl" ng-init="setup()">
+<div ng-app="contactsApp">
+  <div ng-controller="contactsCtrl" ng-init="setup()">
+    <div>
+      <datalist id="names">
+        <option ng-repeat="contact in contacts">{{contact.phone_number}}</option>
+        <option ng-repeat="contact in contacts">{{contact.email_address}}</option>           
+      </datalist>
+      Filter: <input ng-model="personFilter" list="names">    
+    </div>
+       <div>
+      <button ng-click="toggleByAttribute('email_address')">Sort By email</button>
+      <button ng-click="toggleByAttribute('last_name')">Sort By fname</button>
+      <button ng-click="filterEmailToggle('.com')">filter By email</button>
+      <button ng-click="filterPhoneToggle('x')">filter By extensions</button>
+      <input ng-model="contactFilter.phone_number">
+    </div>
     <table>
       <tr>
         <th ng-click="">First Name</th>
         <th ng-click="">Last Name</th>
         <th ng-click="">Birthdate</th>
       </tr>
-      <tr ng-repeat="contact in contacts">
+      <tr ng-repeat="contact in contacts | filter: contactFilter | orderBy:orderAttribute:descending">
         <td>{{contact.first_name}}</td>
         <td>{{contact.last_name}}</td>
+        <td>{{contact.email_address}}</td>
+        <td>{{contact.phone_number}}</td>
         <td>{{contact.company}}</td>
         <td>{{contact.id}}</td>
         <td><button ng-click="deleteContact(contact)">Delete Contact</button></td>

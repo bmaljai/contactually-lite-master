@@ -8,6 +8,7 @@ class ContactsController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).delete
+    user = User.find(params[:id]).delete
+    render json: user
   end
 end
